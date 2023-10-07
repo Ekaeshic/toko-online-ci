@@ -1,6 +1,7 @@
 <?php
 
 defined('BASEPATH') OR exit('No direct script access allowed');
+require FCPATH . 'vendor/autoload.php';
 
 class Checkout extends MY_Controller
 {
@@ -106,6 +107,30 @@ class Checkout extends MY_Controller
             $this->session->set_flashdata('error', 'Oops! Terjadi kesalahan');
             return $this->index($input);    // Kembali ke index dengan kirim last input
         }
+    }
+
+    public function print() {
+        $data['title'] = 'Laporan Pembelian';
+        $data['order']  = $this->myorder->where('invoice', $invoice)->first();
+        
+        if (!$data['order']) {
+            $this->session->set_flashdata('warning', 'Data tidak ditemukan');
+            redirect(base_url('myorder'));
+        }
+
+        $this->myorder->table   = 'order_detail';
+        $data['order_detail']   = $this->myorder->select([
+                'order_detail.id_orders', 'order_detail.id_product', 'order_detail.qty', 'order_detail.subtotal', 'product.title', 'product.image', 'product.price'
+            ])
+            ->join('product')
+            ->where('order_detail.id_orders', $data['order']->id)
+            ->get();
+
+        $data['page']   = 'pages/myorder/receipt';
+            
+        $mpdf = new \Mpdf\Mpdf();
+        $mpdf->WriteHTML('<h1>Hello world!</h1>');
+        $mpdf->Output();
     }
 }
 

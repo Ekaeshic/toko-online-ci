@@ -81,6 +81,9 @@
                     </div>
                 </div>
             <?php endif ?>
+            <div class="card-footer">
+                <a href="<?= base_url("myorder/receipt/$order->invoice") ?>" class="btn btn-success">Kirim laporan</a>
+            </div>
         </div>
     </div>
 </main>

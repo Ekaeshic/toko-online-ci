@@ -1,6 +1,7 @@
 <?php
 
 defined('BASEPATH') OR exit('No direct script access allowed');
+require FCPATH . 'vendor/autoload.php';
 
 class Myorder extends MY_Controller 
 {
@@ -131,6 +132,69 @@ class Myorder extends MY_Controller
         }
         
         return true;
+    }
+
+    public function receipt($invoice) {
+        $data['title'] = 'Laporan Pembelian';
+        $data['order']  = $this->myorder->where('invoice', $invoice)->first();
+        
+        if (!$data['order']) {
+            $this->session->set_flashdata('warning', 'Data tidak ditemukan');
+            redirect(base_url('myorder'));
+        }
+
+        $this->myorder->table   = 'order_detail';
+        $data['order_detail']   = $this->myorder->select([
+                'order_detail.id_orders', 'order_detail.id_product', 'order_detail.qty', 'order_detail.subtotal', 'product.title', 'product.image', 'product.price'
+            ])
+            ->join('product')
+            ->where('order_detail.id_orders', $data['order']->id)
+            ->get();
+
+        $data['page']   = 'pages/myorder/receipt';
+        
+        $html = $this->load->view("pages/myorder/receipt", $data, true);
+        $mpdf = new \Mpdf\Mpdf([
+            'format' => 'A4',
+            'margin_left' => '15',
+            'margin_right' => '15',
+            'margin_top' => '10',
+            'margin_bottom' => '0',
+        ]);
+        $mpdf->WriteHTML($html);
+        $content = $mpdf->Output('', 'S');
+
+        $subject = 'Notifikasi Pembelian';
+        $mailTo = $this->session->userdata('email');
+        $name = $this->session->userdata('name');
+
+        $this->load->library('email');
+        $config = array(
+            'protocol' => 'smtp',
+            'smtp_host' => 'ssl://smtp.gmail.com',
+            'smtp_port' => 465,
+            'smtp_user' => 'rifkialfiansyah99@gmail.com',
+            'smtp_pass' => 'qrub ajmj wuek rkmr',
+            'mailtype' => 'html',
+            'newline' => "\r\n"
+        );
+
+        $this->email->initialize($config);
+        $this->email->set_newline("\r\n");
+        $this->email->to($mailTo);
+        $this->email->from('sehatkuyfarmasi@gmail.com', 'Sehat Kuy Farmasi');
+        $this->email->subject($subject);
+        $this->email->message("Hai $name! terima kasih telah menggunakan aplikasi Sehatin. Pembelian anda telah berhasil diproses. Berikut adalah detail pembelian anda.");
+        $this->email->attach($content, 'attachment', 'laporan.pdf', 'application/pdf');
+        if($this->email->send())
+        {
+            $this->session->set_flashdata('success', 'Email berhasil dikirim');
+        }
+        else
+        {
+            $this->session->set_flashdata('error', 'Email gagal dikirim');
+        }
+        redirect(base_url("myorder/detail/$invoice"));
     }
 }
 

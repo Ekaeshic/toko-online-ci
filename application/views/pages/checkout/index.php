@@ -21,7 +21,7 @@
                         </div>
                         <div class="form-group">
                             <label for="">Alamat</label>
-                            <textarea name="address" cols="30" rows="5" class="form-control"><?= $this->session->userdata('address');?></textarea>
+                            <textarea name="address" id="address" cols="30" rows="5" class="form-control"><?= $this->session->userdata('address');?></textarea>
                             <?= form_error('address') ?>
                         </div>
                         <div class="form-group">

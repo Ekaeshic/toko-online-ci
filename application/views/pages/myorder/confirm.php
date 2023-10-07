@@ -20,17 +20,17 @@
                         </div>
                         <div class="form-group">
                             <label for="">Dari rekening a/n</label>
-                            <input type="text" name="account_name" class="form-control" value="<?= $input->account_name ?>">
+                            <input type="text" name="account_name" class="form-control" value="<?= $this->session->userdata('name') ?>">
                             <?= form_error('account_name') ?>
                         </div>
                         <div class="form-group">
                             <label for="">Nomor rekening</label>
-                            <input type="text" name="account_number" class="form-control" value="<?= $input->account_number ?>">
+                            <input type="text" name="account_number" class="form-control" value="<?= $this->session->userdata('paypal') ?>">
                             <?= form_error('account_number') ?>
                         </div>
                         <div class="form-group">
                             <label for="">Sebesar</label>
-                            <input type="number" name="nominal" class="form-control" value="<?= $input->nominal ?>">
+                            <input readonly type="number" name="nominal" class="form-control" value="<?= $order->total ?>">
                             <?= form_error('nominal') ?>
                         </div>
                         <div class="form-group">
