@@ -16,7 +16,12 @@ class Register_model extends MY_Model
             'email'     => '',
             'password'  => '',
             'role'      => '',
-            'is_active' => ''
+            'is_active' => '',
+            'dob'       => '',
+            'gender'    => '',
+            'address'   => '',
+            'phone'     => '',
+            'paypal'    => ''
         ];
     }
 
@@ -57,7 +62,13 @@ class Register_model extends MY_Model
             'name'      => $input->name,
             'email'     => strtolower($input->email),
             'password'  => hashEncrypt($input->password),
-            'role'      => 'member'
+            'role'      => 'member',
+            'dob'       => $input->dob,
+            'gender'    => $input->gender,
+            'address'   => $input->address,
+            'city'      => $input->city,
+            'phone'     => $input->phone,
+            'paypal'    => $input->paypal
         ];
 
         $user = $this->create($data);   // Insert database
@@ -67,7 +78,11 @@ class Register_model extends MY_Model
             'name'      => $data['name'],
             'email'     => $data['email'],
             'role'      => $data['role'],
-            'is_login'  => true
+            'is_login'  => true,
+            'address'   => $data['address'],
+            'city'      => $data['city'],
+            'phone'     => $data['phone'],
+            'paypal'    => $data['paypal']
         ];
 
         $this->session->set_userdata($sess_data);

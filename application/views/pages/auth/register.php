@@ -35,6 +35,36 @@
                             <?= form_password('password_confirmation', '', ['class' => 'form-control', 'placeholder' => 'Masukkan password yang sama', 'required' => true]) ?>
                             <?= form_error('password_confirmation') ?>
                         </div>
+                        <div class="form-group">
+                            <label for="">Tanggal lahir</label>
+                            <input REQUIRED type="date" name="dob" id="dob" class="form-control" placeholder="Tanggal Lahir">
+                            <?= form_error('date') ?>
+                        </div>
+                        <div class="form-group">
+                            <label for="">Jenis kelamin</label><br>
+                            <?= form_radio('gender', 'male', true) ?>
+                            <?= form_label('Male') ?>
+                            <?= form_radio('gender', 'female') ?>
+                            <?= form_label('Female') ?>
+                        </div>
+                        <div class="form-group">
+                            <label for="">Alamat</label>
+                            <?= form_input('address','',['rows' => 2, 'class' => 'form-control', 'placeholder' => 'Masukkan alamat lengkap', 'required' => true]) ?>
+                            <?= form_error('address') ?>
+                        </div>
+                        <div class="form-group">
+                            <label for="">Kota</label>
+                            <?= form_input('city', '', ['class' => 'form-control', 'placeholder' => 'Masukkan kota', 'required' => true]) ?>
+                            <?= form_error('city') ?>
+                        </div>
+                        <div class="form-group">
+                            <label for="">Telepon</label>
+                            <?= form_input(['type' => 'number', 'name' => 'phone', 'class' => 'form-control', 'placeholder' => 'Masukan nomor telepon aktif', 'required' => true]) ?>
+                        </div>
+                        <div class="form-group">
+                            <label for="">ID Paypal</label>
+                            <?= form_input(['type' => 'text', 'name' => 'paypal', 'class' => 'form-control', 'placeholder' => 'Masukan ID Paypal', 'required' => true]) ?>
+                        </div>
                         <button type="submit" class="btn btn-primary">Register</button>
                     <?= form_close() ?>
                 </div>
