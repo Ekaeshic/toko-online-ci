@@ -13,6 +13,7 @@ Aplikasi toko online berbasis web menggunakan framework CodeIgniter 3.
 |      User     |       Email      	|    Password   |
 |:-------------:|:-----------------:|:-------------:|
 | Administrator | admin@admin.com  	| admin@cishop	|
+| Administrator2| admin2@admin.com  | 12345678  	|
 | Member        | member@member.com	| member@cishop	|
 
 ## Catatan

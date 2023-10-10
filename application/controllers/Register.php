@@ -45,6 +45,36 @@ class Register extends MY_Controller
             redirect(base_url('register'));
         }
     }
+
+    public function registerAdmin()
+    {
+        // Apakah ada post ke controller ini
+        if (!$_POST) {
+            $input = (object) $this->register->getDefaultValues();
+        } else {
+            $input = (object) $this->input->post(null, true);
+        }
+
+        if (!$this->register->validate()) {
+            // Jika validasi gagal maka arahkan ke form register lagi
+            $data['title'] = 'Register Admin';
+            $data['input'] = $input;
+            $data['page'] = 'pages/auth/register_admin';
+
+            $this->view($data);
+
+            return;
+        }
+
+        // Input data
+        if ($this->register->runAdmin($input)) {
+            $this->session->set_flashdata('success', 'Berhasil melakukan registrasi');
+            redirect(base_url());
+        } else {
+            $this->session->set_flashdata('error', 'Oops terjadi suatu kesalahan');
+            redirect(base_url('register-admin'));
+        }
+    }
 }
 
 /* End of file Register.php */

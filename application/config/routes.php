@@ -65,3 +65,5 @@ $route['user/(:num)']       = 'user/index/$1';
 $route['home/(:num)']       = 'home/index/$1';
 
 $route['order/(:num)']      = 'order/index/$1';
+
+$route['register-admin']      = 'register/registerAdmin';
